@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
-	"emitter/db"
-	"emitter/messenger"
-	pb "emitter/proto/destroyer_pb"
+	"emitter/destroyer/db"
+	"emitter/destroyer/messenger"
+	"emitter/destroyer/proto/pb"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -13,7 +13,6 @@ import (
 
 	"github.com/apache/pulsar-client-go/pulsar"
 	"github.com/spf13/viper"
-
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
 )
@@ -60,8 +59,6 @@ func InitializeServer(pulsar string, topic string) *Server {
 	if err != nil {
 		log.Printf("Can't connect to pulsar: %v", err)
 	}
-
-	log.Printf("GOT HERE: %v", DB)
 
 	return &Server{mutex: &sync.RWMutex{}, db: *DB, pulsar: pulse, topic: topic}
 }

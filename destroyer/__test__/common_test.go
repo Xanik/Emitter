@@ -1,7 +1,7 @@
 package test
 
 import (
-	pb "emitter/proto/destroyer_pb"
+	"emitter/destroyer/proto/pb"
 	"log"
 
 	"google.golang.org/grpc"

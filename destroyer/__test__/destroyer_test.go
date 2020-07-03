@@ -1,9 +1,8 @@
 package test
 
 import (
-	pb "emitter/proto/destroyer_pb"
-
 	"context"
+	"emitter/destroyer/proto/pb"
 )
 
 type mockTarget struct {
