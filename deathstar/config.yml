@@ -4,5 +4,5 @@ deathstar:
   db: root:mysql21@tcp(0.0.0.0:3444)/event?parseTime=true
   vault_url: http://localhost:8200/
   redis: localhost:6379
-  pulsar: "pulsar://localhost:6650"
+  pulsar: "pulsar://0.0.0.0:6650"
   topic: Emmiter1.0

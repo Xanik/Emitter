@@ -26,21 +26,15 @@ services:
       - "8600:8600"
       - "8600:8600/udp"
   pulsar-standalone:
-    image: apachepulsar/pulsar
+    image: apachepulsar/pulsar:2.4.0
+    container_name: broker
     ports:
-      - "8080:8080"
-      - "6650:6650"
-    expose:
-      - 8080
-      - 6650
-    environment:
-      - PULSAR_MEM=" -Xms512m -Xmx512m -XX:MaxDirectMemorySize=1g"
-    networks:
-      - consul-network
-    command: >
-      /bin/bash -c
-      "bin/apply-config-from-env.py conf/standalone.conf
-      && bin/pulsar standalone"
+      - '6650:6650'
+      - '8080:8080'
+    volumes:
+      - $PWD/data/pulsar:/pulsar/data
+    command:
+      bin/pulsar standalone
   destroyer:
     container_name: destroyer
     restart: always
@@ -49,7 +43,9 @@ services:
       context: destroyer
     environment: 
       - HOST=postgres_db
+      - PULSAR=pulsar-standalone
     depends_on:
+      - pulsar-standalone
       - postgres_db
     networks:
       - consul-network
@@ -61,6 +57,7 @@ services:
       dockerfile: Dockerfile
       context: deathstar
     depends_on:
+      - pulsar-standalone
       - postgres_db
     networks:
       - consul-network
