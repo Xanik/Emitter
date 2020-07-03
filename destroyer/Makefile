@@ -4,4 +4,7 @@ gen-proto:
 test:
 	cd __test__ && go test ./...
 	cd db/__test__ && go test ./...
+
+build: gen-proto
+	GOOS=linux go build .
 	

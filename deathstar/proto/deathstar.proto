@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package deathstar_pb;
+
+message EventRequestMessage {
+}
+
+message EventResponseMessage {
+    string Id = 1;
+    string Message = 2;
+    string CreatedOn = 3;
+}
+
+message EventMessage {
+    string Id = 1;
+    string Name = 2;
+    repeated TargetResponse Data =3;
+    string CreatedOn = 4;
+}
+
+message TargetResponse {
+    string Id = 1;
+    string Message = 2;
+    string CreatedOn = 3;
+
+}
+service Communication {
+    rpc storeTarget(EventRequestMessage) returns (EventResponseMessage){};
+}

@@ -1,6 +1,7 @@
 package db
 
 import (
+	"emitter/deathstar/proto/deathstar_pb"
 	"log"
 
 	"fmt"
@@ -63,23 +64,21 @@ type Target struct {
 	CreatedOn string `json:"created_on" db:"created_on"`
 }
 
-// GetAllTargets will return list of targets from database
-func (db *DB) GetAllTargets(targetl string) ([]Target, error) {
+// SaveTarget saves an event into the database
+func (db *DB) SaveTarget(c *deathstar_pb.EventMessage) (int64, error) {
 	err := db.Reconnect()
 	if err != nil {
-		return nil, err
+		return 0, err
 	}
-	var targets []Target
-	if targetl != "*" {
-		err = db.c.Select(&targets, "select id, `message`, `created_on` from targets where id=?", targetl)
+
+	for _, v := range c.Data {
+		_, err := db.c.Exec("insert into targets (id, message, created_on)values (?, ?, ?) ", v.Id, v.Message, v.CreatedOn)
+
 		if err != nil {
-			fmt.Errorf("Can't list targets %v", err)
-		}
-	} else {
-		err = db.c.Select(&targets, "select id, `message`, `created_on` from targets")
-		if err != nil {
-			fmt.Errorf("Can't list targets %v", err)
+			fmt.Errorf("Can't insert events %v", err)
+			return 0, err
 		}
 	}
-	return targets, err
+
+	return 1, nil
 }
