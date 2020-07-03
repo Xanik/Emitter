@@ -118,6 +118,17 @@ func (s *Server) ListTargets(ctx context.Context, m *pb.TargetRequestMessage) (*
 }
 
 func newService(server pb.CommunicationServer, port string) {
+	// 	// Create a Consul API client
+	// client, _ := api.NewClient(api.DefaultConfig())
+
+	// // Create an instance representing this service. "my-service" is the
+	// // name of _this_ service. The service should be cleaned up via Close.
+	// svc, _ := connect.NewService("destroyer", client)
+
+	// log.Printf("Connecting deathstar service on: %v", svc)
+
+	// // Creating an HTTP server that serves via Connect
+	// listener, _ := tls.Listen("tcp", port, svc.ServerTLSConfig())
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		panic(err)

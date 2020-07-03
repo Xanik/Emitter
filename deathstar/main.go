@@ -5,10 +5,10 @@ import (
 	"emitter/deathstar/db"
 	"emitter/deathstar/messenger"
 	"emitter/deathstar/proto/deathstar_pb"
+	"net"
 
 	"fmt"
 	"log"
-	"net"
 	"sync"
 
 	"github.com/apache/pulsar-client-go/pulsar"
@@ -43,6 +43,7 @@ func main() {
 	if err != nil {
 		fmt.Errorf("Can't connect to pulsar: %v", err)
 	}
+
 	// Run GRPC
 	go newService(InitializeServer(pulse, DB), ":"+conf["grpc_port"])
 
@@ -97,6 +98,17 @@ func (s *Server) StoreTarget(ctx context.Context, m *deathstar_pb.EventRequestMe
 }
 
 func newService(server deathstar_pb.CommunicationServer, port string) {
+	// 	// Create a Consul API client
+	// client, _ := api.NewClient(api.DefaultConfig())
+
+	// // Create an instance representing this service. "my-service" is the
+	// // name of _this_ service. The service should be cleaned up via Close.
+	// svc, _ := connect.NewService("destroyer", client)
+
+	// log.Printf("Connecting deathstar service on: %v", svc)
+
+	// // Creating an HTTP server that serves via Connect
+	// listener, _ := tls.Listen("tcp", port, svc.ServerTLSConfig())
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		panic(err)
