@@ -39,7 +39,7 @@ func main() {
 		fmt.Errorf("Can't connect to db: %v", err)
 	}
 	// Connect To Pulsar
-	pulse, err := messenger.Connect(conf["pulsar"])
+	pulse, err := messenger.Connect()
 	if err != nil {
 		fmt.Errorf("Can't connect to pulsar: %v", err)
 	}

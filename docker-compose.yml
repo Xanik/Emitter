@@ -1,0 +1,73 @@
+version: "3.5"
+services:
+  postgres_db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    expose:
+      - 5432
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: mysql21
+    volumes:
+      - ./data/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    networks:
+      - local
+  consul:
+    image: bitnami/consul:latest
+    ports:
+      - "8300:8300"
+      - "8301:8301"
+      - "8301:8301/udp"
+      - "8500:8500"
+      - "8600:8600"
+      - "8600:8600/udp"
+    networks:
+      - local
+  pulsar-standalone:
+    image: apachepulsar/pulsar:2.4.0
+    container_name: broker
+    ports:
+      - "6650:6650"
+      - "8080:8080"
+    expose:
+      - 6650
+    volumes:
+      - $PWD/data/pulsar:/pulsar/data
+    networks:
+      - local
+    command: bin/pulsar standalone
+  destroyer:
+    container_name: destroyer
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: destroyer
+    environment:
+      - HOST=postgres_db
+      - PULSAR=pulsar-standalone
+    depends_on:
+      - pulsar-standalone
+      - postgres_db
+    image: "destroyer:alpine"
+    networks:
+      - local
+  deathstar:
+    container_name: deathstar
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: deathstar
+    environment:
+      - HOST=postgres_db
+      - PULSAR=pulsar-standalone
+    depends_on:
+      - pulsar-standalone
+      - postgres_db
+    image: "deathstar:alpine"
+    networks:
+      - local
+networks:
+  local:
+    driver: bridge

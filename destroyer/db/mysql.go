@@ -2,6 +2,7 @@ package db
 
 import (
 	"log"
+	"os"
 
 	"fmt"
 	"sync"
@@ -24,7 +25,7 @@ var dbLock sync.Mutex
 func Connect() (*DB, error) {
 	if cdb == nil {
 		fmt.Printf("Creating new DB connection")
-		newDsn := fmt.Sprintf("host=postgres_db port=5432 user=root dbname=event password=mysql21 sslmode=disable")
+		newDsn := fmt.Sprintf("postgres://root:mysql21@%v:5432/event?sslmode=disable", os.Getenv("HOST"))
 		conn, err := sqlx.Connect("postgres", newDsn)
 		if err != nil {
 			log.Printf("Could not connect to db: %v, %v", err, newDsn)
