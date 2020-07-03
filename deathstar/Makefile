@@ -3,3 +3,6 @@ gen-proto:
 
 test:
 	cd db/__test__ && go test ./...
+
+build: gen-proto
+	GOOS=linux go build .

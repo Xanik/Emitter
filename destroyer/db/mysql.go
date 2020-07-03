@@ -1,7 +1,6 @@
 package db
 
 import (
-	"emitter/destroyer/proto/pb"
 	"log"
 
 	"fmt"
@@ -83,23 +82,4 @@ func (db *DB) GetAllTargets(targetl string) ([]Target, error) {
 		}
 	}
 	return targets, err
-}
-
-// SaveTarget saves an event into the database
-func (db *DB) SaveTarget(c *pb.EventMessage) (int64, error) {
-	err := db.Reconnect()
-	if err != nil {
-		return 0, err
-	}
-
-	for _, v := range c.Data {
-		_, err := db.c.Exec("insert into targets (id, message, created_on)values (?, ?, ?) ", v.Id, v.Message, v.CreatedOn)
-
-		if err != nil {
-			fmt.Errorf("Can't insert events %v", err)
-			return 0, err
-		}
-	}
-
-	return 1, nil
 }
