@@ -9,6 +9,7 @@ import (
 	"google.golang.org/grpc"
 )
 
+// NOTE RUN SERVICE WITH DOCKER BEFORE RUNNING THIS TEST
 // New Storage Client Connection Created
 func newClient() pb.CommunicationClient {
 	port := ":8882"
