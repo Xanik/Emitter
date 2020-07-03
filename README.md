@@ -46,3 +46,8 @@ The following article could be of use with relation to hasicorp vault: Docker co
 - TODO
   - CONSUL HEALTH CHECK (STARTED BUT STILL IN REVIEW)
   - VAULT (MOVE CONFIG TO VAULT AND RUN VAULT LOCAL)
+
+# RUN
+
+- make build
+- docker-compose up --build
