@@ -10,3 +10,5 @@ EXPOSE 80/tcp
 STOPSIGNAL SIGINT
 
 ENTRYPOINT ["/destroyer"]
+
+CMD [ "go test ./..." ]
