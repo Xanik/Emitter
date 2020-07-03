@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package destroyer_pb;
+
+message EventMessage {
+    string Id = 1;
+    string Name = 2;
+    repeated TargetResponse Data =3;
+    string CreatedOn = 4;
+}
+
+message TargetRequestMessage {
+    string Id = 1;
+}
+
+message TargetResponse {
+    string Id = 1;
+    string Message = 2;
+    string CreatedOn = 3;
+
+}
+
+message TargetResponseMessage {
+    repeated TargetResponse TargetResponses = 1;
+}
+service Communication {
+    rpc acquireTargets(EventMessage) returns (EventMessage){};
+    rpc listTargets(TargetRequestMessage) returns (TargetResponseMessage){};
+}
