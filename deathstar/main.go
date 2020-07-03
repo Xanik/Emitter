@@ -43,6 +43,7 @@ func main() {
 	if err != nil {
 		fmt.Errorf("Can't connect to pulsar: %v", err)
 	}
+
 	// Run GRPC
 	go newService(InitializeServer(pulse, DB), ":"+conf["grpc_port"])
 
