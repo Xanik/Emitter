@@ -15,16 +15,10 @@ services:
     networks:
       - local
   # consul:
-  #   image: bitnami/consul:latest
+  #   image: consul:1.4.2
   #   ports:
-  #     - "8300:8300"
-  #     - "8301:8301"
-  #     - "8301:8301/udp"
   #     - "8500:8500"
-  #     - "8600:8600"
-  #     - "8600:8600/udp"
-  #   networks:
-  #     - local
+  #   command: "agent -dev -ui"
   pulsar-standalone:
     image: apachepulsar/pulsar:2.4.0
     container_name: broker

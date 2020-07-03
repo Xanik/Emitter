@@ -25,3 +25,22 @@ service readiness response (connects to all the service dependencies and indicat
 Use of secret managment store like Hashicorp vault to manage TLS secrets and database credentials
 Implementation of schema registry to ensure data in event streams conforms to pre- determined schema
 The following article could be of use with relation to hasicorp vault: Docker compose - Hashicorp's Vault and Consul - Installing vault, unsealking, static secrets and policies. Again bear in mind this is bonus content and hence why the above link has been provided to assist.
+
+# PROGRESS
+
+-- TEST FOR DATABASE FUNCTIONALITY ADDED
+-- TEST FOR GRPC FUNCTIONALITY ADDED
+-- DESTROYER SERVICE CREATED
+-- DEATHSTAR SERVICE CREATED
+-- POSTGRES DB USED
+-- APACHE PULSAR USED AS MESSENGER
+-- DESTROYER TEST ADDED TO TEST APP FUNCTIONALITY AND CONSUMER RESPONSE(RUN BOTH APPS FIRST)
+
+\*\* DESTROYER_TEST.GO
+-- CAN BE USED TO SIMULATE ACQUIRETARGET
+-- LIST SINGLE TARGET
+-- LIST MULTIBLE TARGET
+
+- TODO
+  -- CONSUL HEALTH CHECK (STARTED BUT STILL IN REVIEW)
+  -- VAULT (MOVE CONFIG TO VAULT AND RUN VAULT LOCAL)
