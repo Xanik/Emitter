@@ -34,7 +34,7 @@ func main() {
 
 	conf := viper.GetStringMapString("destroyer")
 	// Run GRPC
-	newService(InitializeServer(conf["pulsar"], conf["topic"]), ":"+conf["grpc_port"])
+	newService(InitializeServer(conf["topic"]), ":"+conf["grpc_port"])
 }
 
 //Server Struct
@@ -47,7 +47,7 @@ type Server struct {
 }
 
 //InitializeServer Initialized a constructor  Of Server struct
-func InitializeServer(pulsar string, topic string) *Server {
+func InitializeServer(topic string) *Server {
 	// Connect to DB
 	DB, err := db.Connect()
 	if err != nil {
@@ -55,7 +55,7 @@ func InitializeServer(pulsar string, topic string) *Server {
 	}
 
 	// Connect To Pulsar
-	pulse, err := messenger.Connect(pulsar)
+	pulse, err := messenger.Connect()
 	if err != nil {
 		log.Printf("Can't connect to pulsar: %v", err)
 	}

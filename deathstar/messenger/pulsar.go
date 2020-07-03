@@ -6,14 +6,17 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/apache/pulsar-client-go/pulsar"
 )
 
 // Connect instantiate Pulsar a client
-func Connect(url string) (pulsar.Client, error) {
+func Connect() (pulsar.Client, error) {
 	log.Printf("\nCreating new Pulsar connection")
+
+	url := fmt.Sprintf("pulsar://%v:6650", os.Getenv("PULSAR"))
 
 	client, err := pulsar.NewClient(pulsar.ClientOptions{
 		URL:               url,
