@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package destroyer_pb;
+package pb;
 
 message EventMessage {
     string Id = 1;

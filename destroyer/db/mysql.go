@@ -1,7 +1,7 @@
 package db
 
 import (
-	destroyer_pb "emitter/proto/destroyer_pb"
+	"emitter/destroyer/proto/pb"
 	"log"
 
 	"fmt"
@@ -64,8 +64,29 @@ type Target struct {
 	CreatedOn string `json:"created_on" db:"created_on"`
 }
 
+// GetAllTargets will return list of targets from database
+func (db *DB) GetAllTargets(targetl string) ([]Target, error) {
+	err := db.Reconnect()
+	if err != nil {
+		return nil, err
+	}
+	var targets []Target
+	if targetl != "*" {
+		err = db.c.Select(&targets, "select id, `message`, `created_on` from targets where id=?", targetl)
+		if err != nil {
+			fmt.Errorf("Can't list targets %v", err)
+		}
+	} else {
+		err = db.c.Select(&targets, "select id, `message`, `created_on` from targets")
+		if err != nil {
+			fmt.Errorf("Can't list targets %v", err)
+		}
+	}
+	return targets, err
+}
+
 // SaveTarget saves an event into the database
-func (db *DB) SaveTarget(c *destroyer_pb.EventMessage) (int64, error) {
+func (db *DB) SaveTarget(c *pb.EventMessage) (int64, error) {
 	err := db.Reconnect()
 	if err != nil {
 		return 0, err
