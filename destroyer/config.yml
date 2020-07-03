@@ -1,0 +1,8 @@
+destroyer:
+  grpc_port: 8882
+  port: 3334
+  db: root:mysql21@(0.0.0.0:3444)/event
+  vault_url: http://localhost:8200/
+  redis: localhost:6379
+  pulsar: "pulsar://localhost:6650"
+  topic: Emmiter1.0
