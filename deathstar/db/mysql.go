@@ -73,7 +73,7 @@ func (db *DB) SaveTarget(c *deathstar_pb.EventMessage) (int64, error) {
 	}
 
 	for _, v := range c.Data {
-		_, err := db.c.Exec("insert into targets (id, message, created_on)values (?, ?, ?) ", v.Id, v.Message, v.CreatedOn)
+		_, err := db.c.Query("INSERT INTO targets (id, message, created_on) VALUES ($1, $2, $3) ", v.Id, v.Message, v.CreatedOn)
 
 		if err != nil {
 			fmt.Errorf("Can't insert events %v", err)

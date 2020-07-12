@@ -58,7 +58,6 @@ func Consumer(client pulsar.Client, topic string) (deathstar_pb.EventMessage, er
 	if err != nil {
 		return deathstar_pb.EventMessage{}, err
 	}
-	fmt.Printf("Event Unmarshalled Here", event)
 
 	return event, nil
 }

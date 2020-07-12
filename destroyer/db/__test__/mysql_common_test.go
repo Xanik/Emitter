@@ -47,7 +47,7 @@ func (db fakeDB) ListTarget(targetl string) ([]TestDBListTarget, error) {
 	var target []TestDBListTarget
 	var err error
 
-	err = db.Select(&target, "select id, `message`, created_on from targets where id=?", targetl)
+	err = db.Select(&target, "select id, message, created_on from targets where id=$1", targetl)
 
 	if err != nil {
 		e := fmt.Sprintf("No such Target: with ID '%s' %v", targetl, err)

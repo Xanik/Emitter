@@ -26,8 +26,7 @@ func (db fakeDB) Exec(dest interface{}, query string, args ...interface{}) (int6
 func (db fakeDB) StoreEvents(e TestDBEvent) (int64, error) {
 	var err error
 
-	resp, err := db.Exec("insert into events (`id`, `message`, `created_on`) values (?, ?, ?) "+
-		"on duplicate key update `id`=values(`id`), message=values(message), created_on=values(created_on)", e.ID, e.Message, e.CreatedOn)
+	resp, err := db.Exec("INSERT INTO targets (id, message, created_on) VALUES ($1, $2, $3) ", e.ID, e.Message, e.CreatedOn)
 
 	if err != nil {
 		e := fmt.Sprintf("Can't insert events %v", err)

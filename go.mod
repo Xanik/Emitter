@@ -12,4 +12,5 @@ require (
 	github.com/lib/pq v1.7.0
 	github.com/spf13/viper v1.7.0
 	google.golang.org/grpc v1.30.0
+	gopkg.in/mgo.v2 v2.0.0-20190816093944-a6b53ec6cb22
 )

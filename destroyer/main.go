@@ -15,6 +15,7 @@ import (
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
+	"gopkg.in/mgo.v2/bson"
 )
 
 func main() {
@@ -102,9 +103,15 @@ func (s *Server) ListTargets(ctx context.Context, m *pb.TargetRequestMessage) (*
 	}
 	s.mutex.RUnlock()
 
+	var data []db.Target
+
+	// convert bson to struct
+	bsonBytes, _ := bson.Marshal(resp)
+	bson.Unmarshal(bsonBytes, &data)
+
 	var targets []*pb.TargetResponse
 
-	for _, v := range resp {
+	for _, v := range data {
 		targets = append(targets, &pb.TargetResponse{
 			Id:        v.ID,
 			Message:   v.Message,

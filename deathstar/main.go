@@ -36,12 +36,12 @@ func main() {
 	// Connect to DB
 	DB, err := db.Connect()
 	if err != nil {
-		fmt.Errorf("Can't connect to db: %v", err)
+		panic(fmt.Errorf("Can't connect to db: %v", err))
 	}
 	// Connect To Pulsar
 	pulse, err := messenger.Connect()
 	if err != nil {
-		fmt.Errorf("Can't connect to pulsar: %v", err)
+		panic(fmt.Errorf("Can't connect to pulsar: %v", err))
 	}
 
 	// Run GRPC
@@ -51,13 +51,11 @@ func main() {
 		// Get From Pulsar Here And Store in DB
 		event, err := messenger.Consumer(pulse, conf["topic"])
 		if err != nil {
-			fmt.Errorf("Pulsar Error: %v", err)
-			return
+			panic(fmt.Errorf("Pulsar Error: %v", err))
 		}
 		_, err = DB.SaveTarget(&event)
 		if err != nil {
-			fmt.Errorf("Db Error: %v", err)
-			return
+			panic(fmt.Errorf("Db Error: %v", err))
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package db
 
 import (
+	"database/sql"
 	"log"
 	"os"
 
@@ -65,22 +66,24 @@ type Target struct {
 }
 
 // GetAllTargets will return list of targets from database
-func (db *DB) GetAllTargets(targetl string) ([]Target, error) {
+func (db *DB) GetAllTargets(targetl string) (*sql.Rows, error) {
 	err := db.Reconnect()
 	if err != nil {
 		return nil, err
 	}
-	var targets []Target
+	// var targets []Target
 	if targetl != "*" {
-		err = db.c.Select(&targets, "select id, `message`, `created_on` from targets where id=?", targetl)
+		row, err := db.c.Query("select id, message, created_on from targets where id=$1", targetl)
 		if err != nil {
 			fmt.Errorf("Can't list targets %v", err)
 		}
-	} else {
-		err = db.c.Select(&targets, "select id, `message`, `created_on` from targets")
-		if err != nil {
-			fmt.Errorf("Can't list targets %v", err)
-		}
+
+		return row, err
 	}
-	return targets, err
+	row, err := db.c.Query("select id, message, created_on from targets")
+	if err != nil {
+		fmt.Errorf("Can't list targets %v", err)
+	}
+	return row, err
+
 }
