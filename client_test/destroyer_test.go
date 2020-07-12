@@ -2,28 +2,12 @@ package main
 
 import (
 	"context"
-	"emitter/destroyer/proto/pb"
-	"log"
+	"emitter/client_test/proto/pb"
 	"testing"
-
-	"google.golang.org/grpc"
 )
 
 // NOTE RUN SERVICE WITH DOCKER BEFORE RUNNING THIS TEST
 // New Storage Client Connection Created
-func newClient() pb.CommunicationClient {
-	port := ":8882"
-
-	conn, err := grpc.Dial("localhost"+port, grpc.WithInsecure())
-
-	if err != nil {
-		log.Fatalf("failed to Serve: %v", err)
-	}
-
-	client := pb.NewCommunicationClient(conn)
-	return client
-
-}
 
 // TestAcquireTargets Function
 func TestAcquireTargets(t *testing.T) {
@@ -39,7 +23,7 @@ func TestAcquireTargets(t *testing.T) {
 		CreatedOn: "2020-06-25T16:23:37.720Z",
 	}
 
-	res, err := newClient().AcquireTargets(context.Background(), &pb.EventMessage{
+	res, err := NewClient().AcquireTargets(context.Background(), &pb.EventMessage{
 		Id:   "01EBP4DP4VECW8PHDJJFNEDVKE",
 		Name: "targets.acquired",
 		Data: []*pb.TargetResponse{
@@ -59,7 +43,7 @@ func TestAcquireTargets(t *testing.T) {
 
 // TestListTargets Function
 func TestListTargets(t *testing.T) {
-	res, err := newClient().ListTargets(context.Background(), &pb.TargetRequestMessage{
+	res, err := NewClient().ListTargets(context.Background(), &pb.TargetRequestMessage{
 		Id: "01EBP4DP4VECW8PHDJJFNEDVKE",
 	})
 	if err != nil {
